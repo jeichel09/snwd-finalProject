@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block page_title %}<title>Welcome to Ninja Messenger!</title>{% endblock page_title %}
+{% block content %}
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark container col-4">
+        <!--<a class="navbar-brand" href="#">Navbar</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('account') }}">Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div container col-4>
+            <img src="../static/img/nm_logo.png" alt="Ninja Messenger Logo" width="100" height="69">
+        </div>
+    </nav>
+    <div class="reg-form bg-dark container col-4">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Hello {{ current_user.name }}</legend>
+                <div class="form-group">
+                    {{ form.recipient.label }}
+                    {% if form.recipient.errors %}
+                        {{ form.recipient(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.recipient.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.recipient(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group>
+                    {{ form.message.label }}
+                    {% if form.message.errors %}
+                        {{ form.recipient(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.message.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.message(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+        {% for message in messages %}
+        <div><p>{{ message.author.username }} says: <b>{{ message.body }}</b></p></div>
+        {% endfor %}
+    </div>
+
+{% endblock content %}

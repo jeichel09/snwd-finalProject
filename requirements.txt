@@ -1,0 +1,11 @@
+sqla-wrapper
+Flask
+Flask-Login
+Flask-Mail
+Flask-SQLAlchemy
+Flask-WTF
+itsdangerous
+Jinja2
+SQLAlchemy
+Werkzeug
+WTForms
